@@ -41,7 +41,7 @@
                 echo "<input type='hidden' name='trainingID' value=$trainingID>";
             ?>
             <center><input type="file" name="excelFile" id="excelFile"></center>
-            <p>Upload an excel file that contains the data of participants. The first column should contain the participant's number, followed by full name, agency, and position. <i>The saving of data will start at 2nd row.</i></p>   
+            <p>Upload an excel file that contains the data of participants. The first column should contain the participant's number, followed by last name, first name, and agency. <i>The saving of data will start at 2nd row.</i></p>   
             <p><i>Note: The current participants of "<?php echo "$trainingName" ?>" will be replaced by the file you'll upload.</i></p>
             <input type="submit" value="Upload Participants">
         </form>

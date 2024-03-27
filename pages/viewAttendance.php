@@ -110,8 +110,8 @@
                 // Initial fetch
                 fetchData();
                 
-                // Set interval to fetch data every 5 seconds
-                // setInterval(fetchData, 1000);
+                Set interval to fetch data every 1 seconds
+                setInterval(fetchData, 1000);
             });
         </script>
     </body>
