@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Move the uploaded file to the specified directory
         if (move_uploaded_file($_FILES["excelFile"]["tmp_name"], $targetFile)) {
-            echo "The file " . basename($_FILES["excelFile"]["name"]) . " has been uploaded.";
+            // echo "The file " . basename($_FILES["excelFile"]["name"]) . " has been uploaded.";
 
             // Load the Excel file
             $spreadsheet = IOFactory::load($targetFile);

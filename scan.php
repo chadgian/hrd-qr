@@ -67,6 +67,7 @@
 		src="script/html5-qrcode.min.js">
 	</script>
 	<script src="script/main-script.js"></script>
+	<script src="script/crypto-js.min.js"></script>
 </body>
 
 </html>

@@ -20,23 +20,39 @@ domReady(function () {
 
 	// If found you qr code
 	function onScanSuccess(decodeText, decodeResult) {
-		
-		let trainingID = document.getElementById('training').value;
-		let scannedTrainingID = decodeText.split(':')[0];
+		// alert("Scanned data: "+decodeText);
 
-		if (trainingID !== scannedTrainingID){
-			alert("Wrong training!");
-		} else {
-			var answer = confirm(decodeText.split(':')[2] + '');
-			if (answer) {
-				let nameResult = document.getElementById("name-result");
-				let nameLabel = document.getElementById('name-label');
-				nameLabel.innerHTML = decodeText.split(':')[-1];
-				nameResult.value = decodeText;
+        fetch('processes/decrypt.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({data: decodeText})
+        })
+        .then(response => response.text())
+        .then(data => {
+			// alert("Decrypted data: "+data);
 
-				let button = document.getElementById("saveButton");
-				button.click();
+			let trainingID = document.getElementById('training').value;
+			let scannedTrainingID = data.split(':')[0];
+	
+			if (trainingID !== scannedTrainingID){
+				alert("Wrong training!");
+			} else {
+				var answer = confirm(data.split(':')[2] + '');
+				if (answer) {
+					let nameResult = document.getElementById("name-result");
+					let nameLabel = document.getElementById('name-label');
+					nameLabel.innerHTML = data.split(':')[-1];
+					nameResult.value = data;
+	
+					let button = document.getElementById("saveButton");
+					button.click();
+				}
 			}
+        })
+        .catch(error => console.error('Error:', error));
+
 
 			// let nameResult = document.getElementById("name-result");
 			// let nameLabel = document.getElementById('name-label');
@@ -45,7 +61,6 @@ domReady(function () {
 
 			// let button = document.getElementById("saveButton");
 			// button.click();
-		}
 
 	}
 

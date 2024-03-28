@@ -7,6 +7,20 @@
 
     require_once '../vendor/autoload.php';
 
+    function encryptText($string, $key) {
+        $key = 'hrd@CSCRO6';
+
+        // Initialization vector (IV) - 16 bytes for AES-128, 24 bytes for AES-192, 32 bytes for AES-256
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+    
+        // Encrypt the plaintext using AES-256-CBC algorithm
+        $ciphertext = openssl_encrypt($string, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+    
+        // Encrypted data (ciphertext) and IV should be stored securely for decryption
+        $base64encoded = base64_encode($ciphertext) ."::". base64_encode($iv);
+        return $base64encoded;
+    }
+
     use chillerlan\QRCode\QRCode;
     use chillerlan\QRCode\QROptions;
 
@@ -289,16 +303,17 @@
                                 $qrCodeOptions = new QROptions([
                                     'eccLevel' => QRCode::ECC_L,
                                     'outputType' => QRCode::OUTPUT_IMAGE_PNG,
-                                    'version' => 3,
-                                    'scale' => 12,
+                                    'version' => 5,
+                                    'scale' => 10,
                                     'quietzoneSize' => 1,
                                     'color' => [255, 0, 0],
                                     // 'imageTransparent' => true,
                                     'transparencyColor' => [0, 0, 0],
                                 ]);
-
+                                $qrCodeText = $id.":".$participantID.":".$text;
                                 $qrCodeGenerator = new QRCode($qrCodeOptions);
-                                $qrCodeImageData = $qrCodeGenerator->render($id.":".$participantID.":".$text);
+                                $key = "924480de4318984ef0524438eab4d689be19072600cb59fd63f80859320ab07d";
+                                $qrCodeImageData = $qrCodeGenerator->render(encryptText($qrCodeText, $key));
 
                                 try {
                                     $qrImageData = file_get_contents($qrCodeImageData);
